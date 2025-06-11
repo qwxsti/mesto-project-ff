@@ -10,7 +10,6 @@ const cardList = document.querySelector('.places__list');
 const newCardPopup = document.querySelector('.popup_type_new-card');
 const editProfilePopup = document.querySelector('.popup_type_edit');
 const imageTypePopup = document.querySelector('.popup_type_image');
-const allPopups = document.querySelectorAll('.popup');
 
 //Элементы попапа с картинкой
 const popupImage = imageTypePopup.querySelector('.popup__image');
@@ -60,8 +59,6 @@ function formProfileSubmit(evt) {
     profileTitle.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
 
-    formProfileElement.reset();
-
     closePopup(editProfilePopup);
 }
 
@@ -96,18 +93,6 @@ formProfileElement.addEventListener('submit', formProfileSubmit);
 
 // Кнопка принятия формы добавления карточки
 formCardElement.addEventListener('submit', formCardSubmit);
-
-// Закрытие попапа по крестику и клику вне его области
-allPopups.forEach(popup => {
-    popup.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup_is-opened')) {
-            closePopup(popup);
-        }
-        if (evt.target.classList.contains('popup__close')) {
-            closePopup(popup);
-        }
-    })
-});
 
 // --ИНИЦИАЛЗАЦИЯ СТРАНИЦЫ
 
