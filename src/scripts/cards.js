@@ -31,3 +31,5 @@ const initialCards = [
       imgAlt: "Зимний Байкал: скалистый утес, выступающий в замерзшее озеро с битым льдом",
     }
 ];
+
+export {initialCards};

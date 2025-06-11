@@ -2,6 +2,7 @@
   width: 142px;
   height: 33px;
   object-fit: contain;
+  content: url('../../../images/logo.svg');
 }
 
 @media screen and (max-width: 480px) {
