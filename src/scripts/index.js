@@ -1,12 +1,13 @@
 import './cards.js';
 import '../pages/index.css';
 import { initialCards } from './cards.js';
-import { openPopup, closePopup } from '../components/modal.js';
+import { openPopup, closePopup, closePopupByClick } from '../components/modal.js';
 import { createCard, deleteCard, likeCard } from '../components/card.js';
 
 const cardList = document.querySelector('.places__list');
 
 //Попапы
+const allPopups = document.querySelectorAll('.popup');
 const newCardPopup = document.querySelector('.popup_type_new-card');
 const editProfilePopup = document.querySelector('.popup_type_edit');
 const imageTypePopup = document.querySelector('.popup_type_image');
@@ -86,6 +87,11 @@ profileEditButton.addEventListener('click', () => {
 // Кнопка открытия попапа добавления новой карточки
 profileAddButton.addEventListener('click', () => {
     openPopup(newCardPopup);
+});
+
+//Закрытие попапа по крестику и клику вне его области
+allPopups.forEach(popup => {
+    popup.addEventListener('mousedown', closePopupByClick);
 });
 
 // Кнопка принятия формы изменения профиля

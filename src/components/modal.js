@@ -1,5 +1,3 @@
-const allPopups = document.querySelectorAll('.popup');
-
 export function openPopup(popup) {
     popup.classList.add('popup_is-opened');
     document.body.classList.add('page_scroll-lock');
@@ -21,10 +19,8 @@ function escapeClosePopup(evt) {
     }
 }
 
-allPopups.forEach(popup => {
-    popup.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup_is-opened') || evt.target.classList.contains('popup__close')) {
-            closePopup(popup);
-        }
-    })
-});
+export const closePopupByClick = (evt) => { 
+        if (evt.target.classList.contains('popup_is-opened') || evt.target.classList.contains('popup__close')) { 
+            closePopup(evt.currentTarget); 
+        } 
+    }
