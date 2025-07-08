@@ -7,11 +7,32 @@
   line-height: 18px;
   box-sizing: border-box;
   padding: 10px 0 0;
+  margin-bottom: 5px;
+}
+
+.popup__input.popup__input_type_error {
+  border-bottom-color: #ff0000;
+}
+
+.popup__input-error {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  color: #ff0000;
+  font-size: 12px;
+  min-block-size: 30px;
+  line-height: 15px;
+  transition: opacity 0.3s;
   margin-bottom: 10px;
 }
 
-.popup__input:last-of-type {
+.popup__input-error:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input-error_active {
+  visibility: visible;
+  opacity: 1;
 }
 
 @media screen and (max-width: 568px) {
