@@ -49,15 +49,14 @@ const profileImage = document.querySelector('.profile__image');
 // --ФУНКЦИИ ОБРАБОТЧИКИ--
 
 // Добавление карточки из формы
-function formCardSubmit(evt) {
+function submitFormCard(evt) {
     evt.preventDefault();
 
-    const cardSubmitButton = formCardElement.querySelector('.popup__button');
-    cardSubmitButton.textContent = "Сохранение...";
+    evt.submitter.textContent = "Сохранение...";
     addCard(cardNameInput.value, cardLinkInput.value)
         .then((cardData) => {
             const myID = cardData.owner._id;
-            const card = createCard(cardData, handleDeleteCard, handleLikeCard, imageClick, myID);
+            const card = createCard(cardData, handleDeleteCard, handleLikeCard, clickImage, myID);
 
             cardList.prepend(card);
 
@@ -69,16 +68,15 @@ function formCardSubmit(evt) {
             console.log(`Ошибка при добавлении карточки`);
         })
         .finally(() => {
-            cardSubmitButton.textContent = "Сохранить";
+            evt.submitter.textContent = "Сохранить";
         })
 }
 
 // Редактирование профиля из формы
-function formProfileSubmit(evt) {
+function submitFormProfile(evt) {
     evt.preventDefault();
 
-    const profileSubmitButton = formProfileElement.querySelector('.popup__button')
-    profileSubmitButton.textContent = 'Сохранение...'
+    evt.submitter.textContent = 'Сохранение...'
 
     setUserInfo(nameInput.value, jobInput.value)
         .then((userData) => {
@@ -89,12 +87,12 @@ function formProfileSubmit(evt) {
             console.log('Ошибка при обновлении профиля')
         })
         .finally(() => {
-            profileSubmitButton.textContent = 'Сохранить'
+            evt.submitter.textContent = 'Сохранить'
         })
 }
 
 // Внесение данных в попап с картинкой
-function imageClick(cardData) {
+function clickImage(cardData) {
     popupImage.src = cardData.link;
     popupImage.alt = cardData.imgAlt;
     popupCaption.textContent = cardData.name;
@@ -137,17 +135,15 @@ allPopups.forEach(popup => {
 });
 
 // Кнопка принятия формы изменения профиля
-formProfileElement.addEventListener('submit', formProfileSubmit);
+formProfileElement.addEventListener('submit', submitFormProfile);
 
 // Кнопка принятия формы добавления карточки
-formCardElement.addEventListener('submit', formCardSubmit);
+formCardElement.addEventListener('submit', submitFormCard);
 
 const handleAvatarFormSubmit = (evt) => {
     evt.preventDefault();
 
-    const avatarEditSubmit = avatarEditForm.querySelector('.popup__button');
-
-    avatarEditSubmit.textContent = "Сохранение...";
+    evt.submitter.textContent = "Сохранение...";
     updateAvatar(avatarInput.value)
     .then((userData) => {
         renderUserInfo(userData);
@@ -157,7 +153,7 @@ const handleAvatarFormSubmit = (evt) => {
         console.log(`Ошибка при обновлении аватара: ${err}`);
     })
     .finally(() => {
-        avatarEditSubmit.textContent = "Сохранить";
+        evt.submitter.textContent = "Сохранить";
     })
 }
 
@@ -200,11 +196,15 @@ const handleDeleteCard = (cardID, cardElement) => {
 const handleLikeCard = (evt, cardID, isLiked) => {
     const likeDecision = isLiked ? deleteLike(cardID) : putLike(cardID);
 
-    likeDecision.then((cardData) => {
+    likeDecision
+    .then((cardData) => {
         const likeButton = evt.target;
         const likeCounter = likeButton.closest('.card').querySelector('.card__like-counter');
         likeCounter.textContent = cardData.likes.length;
         likeButton.classList.toggle('card__like-button_is-active');
+    })
+    .catch((err) => {
+        console.log("Ошибка при лайке: ", err);
     });
 }
 
@@ -234,7 +234,7 @@ Promise.all([getUserInfo(), getCards()])
 
         renderUserInfo(userData);
         cardsData.forEach((cardData) => {
-                const card = createCard(cardData, handleDeleteCard, handleLikeCard, imageClick, myID);
+                const card = createCard(cardData, handleDeleteCard, handleLikeCard, clickImage, myID);
                 cardList.append(card);
         });
     })
